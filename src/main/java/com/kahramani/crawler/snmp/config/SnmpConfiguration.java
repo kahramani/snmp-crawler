@@ -7,12 +7,14 @@ import org.snmp4j.PDU;
 import org.snmp4j.mp.SnmpConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.util.Assert;
 
 /**
  * Created by kahramani on 11/22/2016.
  */
 @Configuration
+@Scope("prototype")
 public class SnmpConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(SnmpConfiguration.class);
