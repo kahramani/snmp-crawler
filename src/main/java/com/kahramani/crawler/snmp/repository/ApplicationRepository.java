@@ -3,6 +3,8 @@ package com.kahramani.crawler.snmp.repository;
 import com.kahramani.crawler.snmp.models.OltOntData;
 import com.kahramani.crawler.snmp.models.SwitchPortData;
 import com.kahramani.crawler.snmp.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,8 @@ import java.util.List;
 @Repository
 public class ApplicationRepository {
 
+    @Autowired
+    @Qualifier("applicationJdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     /**

@@ -40,14 +40,14 @@ public class SnmpConfiguration {
         Assert.notNull(propertyPrefix, "'propertyPrefix' cannot be null to configure");
 
         String prefix = propertyPrefix.get();
-        this.community = propertyHelper.getString(prefix + ".community");
-        this.maxSizeRequestPDU = propertyHelper.getInt(prefix + ".max.size.request.pdu",
+        this.community = this.propertyHelper.getString(prefix + ".community");
+        this.maxSizeRequestPDU = this.propertyHelper.getInt(prefix + ".max.size.request.pdu",
                 this.DEFAULT_MAX_SIZE_REQUEST_PDU);
-        this.maxRepetitions = propertyHelper.getInt(prefix + ".max.repetitions",
+        this.maxRepetitions = this.propertyHelper.getInt(prefix + ".max.repetitions",
                 this.DEFAULT_MAX_REPETITIONS);
-        this.retry = propertyHelper.getInt(prefix + ".retry",
+        this.retry = this.propertyHelper.getInt(prefix + ".retry",
                 this.DEFAULT_SNMP_RETRY);
-        this.timeout = propertyHelper.getLong(prefix + ".timeOut",
+        this.timeout = this.propertyHelper.getLong(prefix + ".timeOut",
                 this.DEFAULT_SNMP_TIMEOUT);
         this.protocolDataUnit = this.DEFAULT_SNMP_PDU;
         this.snmpVersion = this.DEFAULT_SNMP_VERSION;

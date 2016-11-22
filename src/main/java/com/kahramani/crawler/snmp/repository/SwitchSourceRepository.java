@@ -1,6 +1,8 @@
 package com.kahramani.crawler.snmp.repository;
 
 import com.kahramani.crawler.snmp.models.Switch;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,8 +15,10 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Repository
-public class SwitchSourceReporsitory implements SourceRepository {
+public class SwitchSourceRepository implements SourceRepository {
 
+    @Autowired
+    @Qualifier("switchSourceJdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     /**
