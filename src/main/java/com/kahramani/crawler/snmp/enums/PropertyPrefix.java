@@ -5,7 +5,9 @@ package com.kahramani.crawler.snmp.enums;
  */
 public enum PropertyPrefix {
     SW_PREFIX("snmp.sw"),
-    OLT_PREFIX("snmp.olt");
+    OLT_PREFIX("snmp.olt"),
+    SOURCE_DB_PREFIX("db.source"),
+    APPLICATION_DB_PREFIX("db.application");
 
     private String prefix;
 

@@ -1,9 +1,11 @@
 package com.kahramani.crawler.snmp.utils;
 
+import com.kahramani.crawler.snmp.enums.DeviceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.snmp4j.smi.OID;
 import org.springframework.util.Assert;
+
+import java.util.Locale;
 
 /**
  * Created by kahramani on 11/22/2016.
@@ -12,6 +14,27 @@ public class SnmpUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(SnmpUtils.class);
     public static final int DEFAULT_SNMP_PORT = 161;
+
+    /**
+     * to detect model of the device
+     * @param hostName hostName of device
+     * @return a DeviceModel enum
+     */
+    // TODO update here for your purposes
+    public static DeviceModel getDeviceModelByHostName(String hostName) {
+        Assert.hasText(hostName, "'hostName' cannot be null or empty");
+
+        if(hostName.toUpperCase(Locale.US).startsWith(DeviceModel.SW_HUAWEI.getPrefix()))
+            return DeviceModel.SW_HUAWEI;
+        else if(hostName.toUpperCase(Locale.US).startsWith(DeviceModel.SW_CISCO.getPrefix()))
+            return DeviceModel.SW_CISCO;
+        else if(hostName.toUpperCase(Locale.US).startsWith(DeviceModel.OLT_HUAWEI.getPrefix()))
+            return DeviceModel.OLT_HUAWEI;
+        else if(hostName.toUpperCase(Locale.US).startsWith(DeviceModel.OLT_NOKIA.getPrefix()))
+            return DeviceModel.OLT_NOKIA;
+
+        return DeviceModel.UNIDENTIFIED;
+    }
 
     /**
      * to build udp address from targetIP
