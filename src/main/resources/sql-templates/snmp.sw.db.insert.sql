@@ -1,0 +1,13 @@
+INSERT INTO
+ TABLE_1 (
+ SWITCH_HOSTNAME,
+ SWITCH_IP,
+ VENDOR,
+ IS_REACHABLE,
+ VLAN,
+ PORT,
+ MAC_ADDRESS,
+ INSERT_TIME
+ ) VALUES (?,?,?,?,?,?,?,?)
+
+ --TODO set the query

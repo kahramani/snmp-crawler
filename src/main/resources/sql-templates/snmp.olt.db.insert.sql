@@ -1,0 +1,14 @@
+INSERT INTO
+ TABLE_1 (
+ OLT_HOSTNAME,
+ OLT_IP,
+ VENDOR,
+ IS_REACHABLE,
+ SLOT,
+ PORT,
+ ONT_NO,
+ ONT_SERIALNUMBER,
+ INSERT_TIME
+ ) VALUES (?,?,?,?,?,?,?,?,?)
+ 
+ --TODO set the query
