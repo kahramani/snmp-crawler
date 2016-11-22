@@ -1,5 +1,6 @@
-package com.kahramani.crawler.snmp.utils;
+package com.kahramani.crawler.snmp.config;
 
+import com.kahramani.crawler.snmp.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,9 @@ import java.text.ParseException;
  */
 @Configuration
 @PropertySource(value = {"classpath:snmp.properties"})
-public class PropertyUtils {
+public class PropertyHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertyUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertyHelper.class);
 
     @Resource
     public Environment environment;
