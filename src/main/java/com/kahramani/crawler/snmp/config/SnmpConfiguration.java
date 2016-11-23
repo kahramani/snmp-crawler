@@ -1,8 +1,6 @@
 package com.kahramani.crawler.snmp.config;
 
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.snmp4j.PDU;
 import org.snmp4j.mp.SnmpConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,8 @@ import org.springframework.util.Assert;
 /**
  * Created by kahramani on 11/22/2016.
  */
-@Configuration
-@Scope("prototype")
 public class SnmpConfiguration {
 
-    private static final Logger logger = LoggerFactory.getLogger(SnmpConfiguration.class);
     public static final int DEFAULT_MAX_REPETITIONS = 10;
     public static final int DEFAULT_MAX_SIZE_REQUEST_PDU = 0;
     public static final int DEFAULT_SNMP_RETRY = 2;

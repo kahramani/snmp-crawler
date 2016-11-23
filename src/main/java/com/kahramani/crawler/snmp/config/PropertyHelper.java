@@ -7,12 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 
 /**
  * Created by kahramani on 11/22/2016.
@@ -58,17 +57,7 @@ public class PropertyHelper {
      * @return an int which is the property value of the given key
      */
     public int getInt(String key, int defaultValue) {
-        Number n = null;
-        String prop = this.getString(key);
-        try {
-            n = this.parseNumber(prop);
-        } catch (ParseException e) {
-            logger.error("Failed to parse int value of " + prop, e);
-        }
-        if(n == null)
-            return defaultValue;
-
-        return n.intValue();
+        return parseNumber(this.getString(key), Integer.class, defaultValue);
     }
 
     /**
@@ -78,17 +67,7 @@ public class PropertyHelper {
      * @return a long which is the property value of the given key
      */
     public long getLong(String key, long defaultValue) {
-        Number n = null;
-        String prop = this.getString(key);
-        try {
-            n = this.parseNumber(prop);
-        } catch (ParseException e) {
-            logger.error("Failed to parse long value of " + prop, e);
-        }
-        if(n == null)
-            return defaultValue;
-
-        return n.longValue();
+        return parseNumber(this.getString(key), Long.class, defaultValue);
     }
 
     /**
@@ -98,17 +77,7 @@ public class PropertyHelper {
      * @return a double which is the property value of the given key
      */
     public double getDouble(String key, double defaultValue) {
-        Number n = null;
-        String prop = this.getString(key);
-        try {
-            n = this.parseNumber(prop);
-        } catch (ParseException e) {
-            logger.error("Failed to parse double value of " + prop, e);
-        }
-        if(n == null)
-            return defaultValue;
-
-        return n.doubleValue();
+        return parseNumber(this.getString(key), Double.class, defaultValue);
     }
 
     /**
@@ -118,30 +87,21 @@ public class PropertyHelper {
      * @return a float which is the property value of the given key
      */
     public float getFloat(String key, float defaultValue) {
-        Number n = null;
-        String prop = this.getString(key);
-        try {
-            n = this.parseNumber(prop);
-        } catch (ParseException e) {
-            logger.error("Failed to parse float value of " + prop, e);
-        }
-        if(n == null)
-            return defaultValue;
-
-        return n.floatValue();
+        return parseNumber(this.getString(key), Float.class, defaultValue);
     }
 
     /**
      * to read sql query from file
      * @param filePathKey property file key which points the path of the file whose content wanted to read
      * @param readLineByLine read file line by line or char by char
+     * @param encoding encoding
      * @return a StringBuilder which is the query
      */
-    public StringBuilder getSqlQueryFromFile(String filePathKey, boolean readLineByLine) {
+    public StringBuilder getSqlQueryFromFile(String filePathKey, boolean readLineByLine, String encoding) {
         StringBuilder sb = null;
         String filePath = this.getString(filePathKey);
         try {
-            sb = FileUtils.readFileContent(filePath, readLineByLine, null);
+            sb = FileUtils.readFileContent(filePath, readLineByLine, null, encoding);
         } catch (IOException e) {
             logger.error("Failed to get sql query from file " + filePath, e);
         }
@@ -152,12 +112,18 @@ public class PropertyHelper {
     /**
      * to parse number from property
      * @param value property value
+     * @param targetClass target class
+     * @param defaultValue default value if cannot be parsed
      * @param <T> any child class of Number
      * @return a T type which is the parsed number from the given value
-     * @throws ParseException if cannot parse the given value
      */
-    private <T extends Number> T parseNumber(String value) throws ParseException {
-        Assert.hasText(value, "'value' cannot be null or empty to parse as number");
-        return (T) NumberFormat.getInstance().parse(value);
+    // TODO TEST For all Number subclasses
+    private <T extends Number> T parseNumber(String value, Class targetClass, T defaultValue) {
+        try {
+            return (T) NumberUtils.parseNumber(value, targetClass);
+        } catch (Exception e) {
+            logger.error("Failed to parse value of " + value + " to class of " + targetClass.toString(), e);
+            return defaultValue;
+        }
     }
 }
