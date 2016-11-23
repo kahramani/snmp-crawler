@@ -20,6 +20,7 @@
         <apache.dbcp2.version>2.1.1</apache.dbcp2.version>
         <mysql.jdbc.version>5.1.39</mysql.jdbc.version>
         <oracle.jdbc.version>12.1.0.2</oracle.jdbc.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <build>
@@ -87,6 +88,18 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
