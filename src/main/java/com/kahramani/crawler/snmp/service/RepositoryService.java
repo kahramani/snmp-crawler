@@ -20,8 +20,8 @@ import java.util.List;
 /**
  * Created by kahramani on 11/22/2016.
  */
-@Service
-public class RepositoryService {
+@Service("repositoryService")
+class RepositoryService {
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryService.class);
 
@@ -44,7 +44,11 @@ public class RepositoryService {
     @Qualifier("oltInsertQuery")
     private StringBuilder oltInsertQuery;
 
-    public List<Switch> getSwitchList() {
+    /**
+     * to get switch list from the source repository
+     * @return a List of Switch
+     */
+    List<Switch> getSwitchList() {
         Assert.notNull(switchSelectQuery, "'snmp.sw.db.select.sql' must be added to resources");
         Assert.hasText(switchSelectQuery.toString(), "'snmp.sw.db.select.sql' must not be empty");
 
@@ -63,7 +67,11 @@ public class RepositoryService {
         return switchList;
     }
 
-    public List<Olt> getOltList() {
+    /**
+     * to get olt list from the source repository
+     * @return a List of Olt
+     */
+    List<Olt> getOltList() {
         Assert.notNull(oltSelectQuery, "'snmp.olt.db.select.sql' must be added to resources");
         Assert.hasText(oltSelectQuery.toString(), "'snmp.olt.db.select.sql' must not be empty");
 
@@ -82,7 +90,12 @@ public class RepositoryService {
         return oltList;
     }
 
-    public int[] insertSwitchPortDataList(final List<SwitchPortData> portDataList) {
+    /**
+     * to insert switch port data list to application db via batching
+     * @param portDataList list to insert
+     * @return an int array with length of inserted count
+     */
+    int[] insertSwitchPortDataList(final List<SwitchPortData> portDataList) {
         Assert.notNull(switchInsertQuery, "'snmp.sw.db.insert.sql' must be added to resources");
         Assert.hasText(switchInsertQuery.toString(), "'snmp.sw.db.insert.sql' must not be empty");
 
@@ -102,7 +115,12 @@ public class RepositoryService {
         return insertionCount;
     }
 
-    public int[] insertOltOntDataList(final List<OltOntData> ontDataList) {
+    /**
+     * to insert olt ont data list to application db via batching
+     * @param ontDataList list to insert
+     * @return an int array with length of inserted count
+     */
+    int[] insertOltOntDataList(final List<OltOntData> ontDataList) {
         Assert.notNull(oltInsertQuery, "'snmp.olt.db.insert.sql' must be added to resources");
         Assert.hasText(oltInsertQuery.toString(), "'snmp.olt.db.insert.sql' must not be empty");
 
