@@ -1,5 +1,6 @@
-package com.kahramani.crawler.snmp.action;
+package com.kahramani.crawler.snmp.service;
 
+import com.kahramani.crawler.snmp.action.SnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Component
-public class SnmpTaskGenerator {
+class SnmpTaskGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(SnmpTaskGenerator.class);
 
@@ -34,11 +35,12 @@ public class SnmpTaskGenerator {
      * @param propertyPrefix property file prefix for configuration
      * @param neList child object list of NetworkElement
      * @param taskClass which contain the method overrides run
-     * @return a List of SnmpTaskRunnable child object
+     * @param <T> Type which is a child of SnmpTaskRunnable interface
+     * @return a List of T
      */
-    public List<? extends SnmpTaskRunnable> generate(PropertyPrefix propertyPrefix,
-                                             List<? extends NetworkElement> neList,
-                                             Class<? extends SnmpTaskRunnable> taskClass) {
+    <T extends SnmpTaskRunnable> List<T> generate(PropertyPrefix propertyPrefix,
+                                                         List<? extends NetworkElement> neList,
+                                                         Class<T> taskClass) {
         Assert.notNull(propertyPrefix, "'propertyPrefix' cannot be null or empty");
         Assert.notEmpty(neList, "'neList' cannot be null or empty");
 
@@ -65,9 +67,9 @@ public class SnmpTaskGenerator {
         logger.info("List with size of " + neList.size() + " splitted into " + partitionCount +
                 " small partition for each thread.");
 
-        List<SnmpTaskRunnable> taskList = new ArrayList<>();
+        List<T> taskList = new ArrayList<>();
         for (List<?> partition : splitList) {
-            SnmpTaskRunnable runnable = applicationContext.getBean(taskClass);
+            T runnable = applicationContext.getBean(taskClass);
             runnable.setList((List<NetworkElement>) partition);
             taskList.add(runnable);
         }
