@@ -12,23 +12,30 @@ import java.io.*;
 public class FileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
+    private static final String DEFAULT_ENCODING = "UTF-8";
 
     /**
      * to read content of a file
      * @param filePath property file key which points the path of the fi
      * @param readLineByLine read file line by line or char by char
      * @param excludePattern a regex pattern wanted to be replaced with whitespace
+     * @param encoding encoding
      * @return a StringBuilder which has content of the file
      * @throws IOException if input/output stream operation exception occurs
      */
-    public static StringBuilder readFileContent(String filePath, boolean readLineByLine, String excludePattern)
+    public static StringBuilder readFileContent(String filePath,
+                                                boolean readLineByLine,
+                                                String excludePattern,
+                                                String encoding)
             throws IOException {
         Assert.hasText(filePath, "'filePath' cannot be null or empty");
         StringBuilder sb = null;
         BufferedReader br = null;
         InputStreamReader in = null;
         try {
-            in = new InputStreamReader(FileUtils.class.getClassLoader().getResourceAsStream(filePath));
+            if(!StringUtils.hasText(encoding))
+                encoding = DEFAULT_ENCODING;
+            in = new InputStreamReader(FileUtils.class.getClassLoader().getResourceAsStream(filePath), encoding);
             br = new BufferedReader(in);
             int r;
             String str;
