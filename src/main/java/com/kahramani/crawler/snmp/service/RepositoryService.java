@@ -21,7 +21,7 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Service("repositoryService")
-class RepositoryService {
+public class RepositoryService {
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryService.class);
 
@@ -48,7 +48,7 @@ class RepositoryService {
      * to get switch list from the source repository
      * @return a List of Switch
      */
-    List<Switch> getSwitchList() {
+    public List<Switch> getSwitchList() {
         Assert.notNull(switchSelectQuery, "'snmp.sw.db.select.sql' must be added to resources");
         Assert.hasText(switchSelectQuery.toString(), "'snmp.sw.db.select.sql' must not be empty");
 
@@ -71,7 +71,7 @@ class RepositoryService {
      * to get olt list from the source repository
      * @return a List of Olt
      */
-    List<Olt> getOltList() {
+    public List<Olt> getOltList() {
         Assert.notNull(oltSelectQuery, "'snmp.olt.db.select.sql' must be added to resources");
         Assert.hasText(oltSelectQuery.toString(), "'snmp.olt.db.select.sql' must not be empty");
 
@@ -95,7 +95,7 @@ class RepositoryService {
      * @param portDataList list to insert
      * @return an int array with length of inserted count
      */
-    int[] insertSwitchPortDataList(final List<SwitchPortData> portDataList) {
+    public int[] insertSwitchPortDataList(final List<SwitchPortData> portDataList) {
         Assert.notNull(switchInsertQuery, "'snmp.sw.db.insert.sql' must be added to resources");
         Assert.hasText(switchInsertQuery.toString(), "'snmp.sw.db.insert.sql' must not be empty");
 
@@ -120,7 +120,7 @@ class RepositoryService {
      * @param ontDataList list to insert
      * @return an int array with length of inserted count
      */
-    int[] insertOltOntDataList(final List<OltOntData> ontDataList) {
+    public int[] insertOltOntDataList(final List<OltOntData> ontDataList) {
         Assert.notNull(oltInsertQuery, "'snmp.olt.db.insert.sql' must be added to resources");
         Assert.hasText(oltInsertQuery.toString(), "'snmp.olt.db.insert.sql' must not be empty");
 

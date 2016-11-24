@@ -1,15 +1,11 @@
 package com.kahramani.crawler.snmp.service;
 
-import com.kahramani.crawler.snmp.action.SnmpTaskRunnable;
-import com.kahramani.crawler.snmp.action.SnmpTaskGenerator;
 import com.kahramani.crawler.snmp.action.SwitchSnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.Switch;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -17,7 +13,7 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Service("switchSnmpService")
-class SwitchSnmpService extends SnmpService {
+public class SwitchSnmpService extends SnmpService {
 
     @Autowired
     private RepositoryService repositoryService;
@@ -35,7 +31,7 @@ class SwitchSnmpService extends SnmpService {
         List<Switch> switchList = repositoryService.getSwitchList();
 
         // create runnables from the list for thread execution
-        List<? extends SnmpTaskRunnable> switchSnmpTaskRunnables =
+        List<SwitchSnmpTaskRunnable> switchSnmpTaskRunnables =
                 snmpTaskGenerator.generate(PropertyPrefix.SW_PREFIX, switchList, SwitchSnmpTaskRunnable.class);
 
         // start executing threads

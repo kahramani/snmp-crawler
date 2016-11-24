@@ -39,8 +39,8 @@ class SnmpTaskGenerator {
      * @return a List of T
      */
     <T extends SnmpTaskRunnable> List<T> generate(PropertyPrefix propertyPrefix,
-                                                         List<? extends NetworkElement> neList,
-                                                         Class<T> taskClass) {
+                                                  List<? extends NetworkElement> neList,
+                                                  Class<T> taskClass) {
         Assert.notNull(propertyPrefix, "'propertyPrefix' cannot be null or empty");
         Assert.notEmpty(neList, "'neList' cannot be null or empty");
 

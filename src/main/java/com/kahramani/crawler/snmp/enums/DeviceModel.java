@@ -12,7 +12,7 @@ public enum DeviceModel {
     SW_HUAWEI       ("SWITCH", "HUAWEI", "SW_HUA"),
     SW_CISCO        ("SWITCH", "CISCO", "SW_CIS"),
     OLT_HUAWEI      ("OLT", "HUAWEI", "OLT_HUA"),
-    OLT_NOKIA       ("OLT", "NOKIA", "SW_NOK");
+    OLT_NOKIA       ("OLT", "NOKIA", "OLT_NOK");
 
     private final String device;
     private final String vendor;

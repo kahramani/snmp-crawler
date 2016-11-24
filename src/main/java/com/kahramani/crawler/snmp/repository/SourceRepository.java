@@ -7,7 +7,5 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 public interface SourceRepository {
-
-    public <T extends NetworkElement> List<T> getList(String sqlQuery);
-
+    <T extends NetworkElement> List<T> getList(String sqlQuery);
 }
