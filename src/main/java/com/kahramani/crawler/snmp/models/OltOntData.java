@@ -11,6 +11,10 @@ public class OltOntData {
     private String ontNo;
     private String serialNumber;
 
+    public OltOntData(Olt olt) {
+        this.olt = olt;
+    }
+
     public Olt getOlt() {
         return olt;
     }

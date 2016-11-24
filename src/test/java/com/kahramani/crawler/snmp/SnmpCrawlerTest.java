@@ -2,7 +2,8 @@ package com.kahramani.crawler.snmp;
 
 import com.kahramani.crawler.snmp.application.Application;
 import com.kahramani.crawler.snmp.enums.Process;
-import com.kahramani.crawler.snmp.service.SnmpService;
+import com.kahramani.crawler.snmp.service.OltSnmpService;
+import com.kahramani.crawler.snmp.service.SwitchSnmpService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,15 +22,18 @@ public class SnmpCrawlerTest {
     private static final Logger logger = LoggerFactory.getLogger(SnmpCrawlerTest.class);
 
     @Autowired
-    private SnmpService snmpService;
+    private SwitchSnmpService switchSnmpService;
+
+    @Autowired
+    private OltSnmpService oltSnmpService;
 
     @Test
     public void crawlAllSwitchesOver() {
-        this.snmpService.start(Process.SWITCH_SNMP);
+        this.switchSnmpService.start(Process.SWITCH_SNMP);
     }
 
     @Test
     public void crawlAllOltsOver() {
-        this.snmpService.start(Process.OLT_SNMP);
+        this.oltSnmpService.start(Process.OLT_SNMP);
     }
 }
