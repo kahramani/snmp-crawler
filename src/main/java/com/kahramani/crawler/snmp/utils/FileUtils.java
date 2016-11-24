@@ -1,7 +1,5 @@
 package com.kahramani.crawler.snmp.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -11,7 +9,6 @@ import java.io.*;
  */
 public class FileUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
     private static final String DEFAULT_ENCODING = "UTF-8";
 
     /**

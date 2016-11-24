@@ -1,8 +1,7 @@
 package com.kahramani.crawler.snmp.utils;
 
 import com.kahramani.crawler.snmp.enums.DeviceModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.util.Assert;
 
 import java.util.Locale;
@@ -12,7 +11,6 @@ import java.util.Locale;
  */
 public class SnmpUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(SnmpUtils.class);
     public static final int DEFAULT_SNMP_PORT = 161;
 
     /**
