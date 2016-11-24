@@ -13,7 +13,7 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Service("switchSnmpService")
-public class SwitchSnmpService extends SnmpService {
+public class SwitchSnmpService extends SnmpServiceAbstract {
 
     @Autowired
     private RepositoryService repositoryService;

@@ -1,7 +1,6 @@
 package com.kahramani.crawler.snmp.service;
 
 import com.kahramani.crawler.snmp.action.OltSnmpTaskRunnable;
-import com.kahramani.crawler.snmp.action.SnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.Olt;
@@ -14,7 +13,7 @@ import java.util.List;
  * Created by kahramani on 11/23/2016.
  */
 @Service("oltSnmpService")
-public class OltSnmpService extends SnmpService {
+public class OltSnmpService extends SnmpServiceAbstract {
 
     @Autowired
     private RepositoryService repositoryService;

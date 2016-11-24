@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by kahramani on 11/22/2016.
  */
-public abstract class SnmpService {
+public abstract class SnmpServiceAbstract {
 
     private static Logger logger;
 
     @Autowired
     protected PropertyHelper propertyHelper;
 
-    public SnmpService(Class c) {
+    public SnmpServiceAbstract(Class c) {
         this.logger =  LoggerFactory.getLogger(c);
     }
 
