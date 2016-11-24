@@ -4,13 +4,17 @@ import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.NetworkElement;
 import com.kahramani.crawler.snmp.models.Switch;
+import com.kahramani.crawler.snmp.models.SwitchPortData;
+import com.kahramani.crawler.snmp.service.RepositoryService;
 import com.kahramani.crawler.snmp.utils.Chronometer;
+import com.kahramani.crawler.snmp.utils.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -26,6 +30,9 @@ public class SwitchSnmpTaskRunnable implements SnmpTaskRunnable {
 
     @Autowired
     private PropertyHelper propertyHelper;
+    @Autowired
+    private RepositoryService repositoryService;
+
     private List<Switch> switchList;
 
     @Override
@@ -49,8 +56,20 @@ public class SwitchSnmpTaskRunnable implements SnmpTaskRunnable {
 
         logger.info("Thread is started. List size: " + this.switchList.size());
 
-        // TODO STUFF
+        List<List<?>> splitList = ListUtils.splitListByPartitionSize(this.switchList, maxSwitchCountToInsert);
+
+        Assert.notEmpty(splitList, "'splitList' could not be created");
+
+        SwitchSnmpCrawler crawler = new SwitchSnmpCrawler();
+        for(List<?> partition : splitList) {
+            List<SwitchPortData> portDataList = crawler.crawlAllOver(partition);
+
+            if(!CollectionUtils.isEmpty(portDataList))
+                repositoryService.insertSwitchPortDataList(portDataList);
+        }
+
         cr.stop();
+
         logger.info("Thread is completed. Run Time: " + cr.getDuration());
         cr.clear();
     }
