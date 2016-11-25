@@ -4,6 +4,10 @@ package com.kahramani.crawler.snmp.enums;
  * Created by kahramani on 11/22/2016.
  */
 public enum PropertyPrefix {
+
+    /**
+     * prefix
+     */
     SW_PREFIX("snmp.sw"),
     OLT_PREFIX("snmp.olt"),
     SW_SOURCE_DB_PREFIX("db.sw.source"),
