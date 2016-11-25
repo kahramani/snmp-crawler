@@ -11,6 +11,10 @@ public class DateUtils {
 
     public static final String DEFAULT_DATE_TIME_FORMAT = "yyyyMMddHHmmss";
 
+    /**
+     * to get date time in long type - Format: DEFAULT_DATE_TIME_FORMAT
+     * @return a long value
+     */
     public static Long getDateTimeAsLong() {
         DateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT);
         Calendar cal = Calendar.getInstance();
