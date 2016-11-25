@@ -1,8 +1,7 @@
 package com.kahramani.crawler.snmp;
 
 import com.kahramani.crawler.snmp.application.Application;
-import com.kahramani.crawler.snmp.enums.Process;
-import com.kahramani.crawler.snmp.service.OltSnmpService;
+import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.service.SwitchSnmpService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,23 +16,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {Application.class})
-public class SnmpCrawlerTest {
+public class SwitchSnmpServiceTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(SnmpCrawlerTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SwitchSnmpServiceTest.class);
 
+    @Autowired
+    private PropertyHelper propertyHelper;
     @Autowired
     private SwitchSnmpService switchSnmpService;
 
-    @Autowired
-    private OltSnmpService oltSnmpService;
-
     @Test
     public void crawlAllSwitchesOver() {
-        this.switchSnmpService.start(Process.SWITCH_SNMP);
+        this.switchSnmpService.start();
     }
 
-    @Test
-    public void crawlAllOltsOver() {
-        this.oltSnmpService.start(Process.OLT_SNMP);
-    }
 }
