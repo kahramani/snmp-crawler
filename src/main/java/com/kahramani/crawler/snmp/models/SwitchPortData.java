@@ -18,10 +18,6 @@ public class SwitchPortData {
         return sw;
     }
 
-    public void setSw(Switch sw) {
-        this.sw = sw;
-    }
-
     public String getVlan() {
         return vlan;
     }

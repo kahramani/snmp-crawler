@@ -19,10 +19,6 @@ public class OltOntData {
         return olt;
     }
 
-    public void setOlt(Olt olt) {
-        this.olt = olt;
-    }
-
     public String getSlot() {
         return slot;
     }
