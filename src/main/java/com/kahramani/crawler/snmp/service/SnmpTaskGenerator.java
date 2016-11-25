@@ -2,7 +2,6 @@ package com.kahramani.crawler.snmp.service;
 
 import com.kahramani.crawler.snmp.action.SnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.PropertyHelper;
-import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.NetworkElement;
 import com.kahramani.crawler.snmp.utils.ListUtils;
@@ -23,6 +22,7 @@ import java.util.List;
 class SnmpTaskGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(SnmpTaskGenerator.class);
+    private static final int DEFAULT_MAX_ACTIVE_THREAD_COUNT = 3;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -46,7 +46,7 @@ class SnmpTaskGenerator {
 
         String prefix = propertyPrefix.get();
         int maxActiveThreadCount = this.propertyHelper.getInt(prefix + ".thread.max.active.count",
-                ThreadExecutionManager.DEFAULT_MAX_ACTIVE_THREAD_COUNT);
+                DEFAULT_MAX_ACTIVE_THREAD_COUNT);
 
         if(maxActiveThreadCount <= 0) {
             String m = prefix + ".thread.max.active.count cannot be lower than 0 to run this operation.";

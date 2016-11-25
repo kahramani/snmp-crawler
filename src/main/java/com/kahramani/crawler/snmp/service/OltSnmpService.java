@@ -26,17 +26,18 @@ public class OltSnmpService extends SnmpServiceAbstract {
     }
 
     @Override
-    protected void runService(com.kahramani.crawler.snmp.enums.Process process) {
+    protected void runService() {
         // get olt list to crawl over
         List<Olt> oltList = repositoryService.getOltList();
 
         // create runnables from the list for thread execution
         List<OltSnmpTaskRunnable> oltSnmpTaskRunnables =
-                snmpTaskGenerator.generate(PropertyPrefix.SW_PREFIX, oltList, OltSnmpTaskRunnable.class);
+                snmpTaskGenerator.generate(PropertyPrefix.OLT_PREFIX, oltList, OltSnmpTaskRunnable.class);
 
         // start executing threads
         String threadNamePrefix = "OltSnmpThread_";
-        ThreadExecutionManager manager = new ThreadExecutionManager(PropertyPrefix.SW_PREFIX, threadNamePrefix);
-        manager.submitRunnables(oltSnmpTaskRunnables, true);
+        int timeOut = this.propertyHelper.getInt(PropertyPrefix.OLT_PREFIX.get() + ".crawler.timeout", Integer.MAX_VALUE);
+        ThreadExecutionManager manager = new ThreadExecutionManager(timeOut, threadNamePrefix);
+        manager.submitRunnables(oltSnmpTaskRunnables);
     }
 }

@@ -26,7 +26,7 @@ public class SwitchSnmpService extends SnmpServiceAbstract {
     }
 
     @Override
-    protected void runService(com.kahramani.crawler.snmp.enums.Process process) {
+    protected void runService() {
         // get switch list to crawl over
         List<Switch> switchList = repositoryService.getSwitchList();
 
@@ -36,7 +36,8 @@ public class SwitchSnmpService extends SnmpServiceAbstract {
 
         // start executing threads
         String threadNamePrefix = "SwitchSnmpThread_";
-        ThreadExecutionManager manager = new ThreadExecutionManager(PropertyPrefix.SW_PREFIX, threadNamePrefix);
-        manager.submitRunnables(switchSnmpTaskRunnables, true);
+        int timeOut = this.propertyHelper.getInt(PropertyPrefix.SW_PREFIX.get() + ".crawler.timeout", Integer.MAX_VALUE);
+        ThreadExecutionManager manager = new ThreadExecutionManager(timeOut, threadNamePrefix);
+        manager.submitRunnables(switchSnmpTaskRunnables);
     }
 }
