@@ -1,12 +1,9 @@
 package com.kahramani.crawler.snmp.config;
 
-import com.kahramani.crawler.snmp.enums.PropertyPrefix;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -14,42 +11,37 @@ import java.util.List;
  */
 public class ThreadExecutionManager {
 
-    public static final int DEFAULT_MAX_ACTIVE_THREAD_COUNT = 3;
-
-    @Autowired
-    private PropertyHelper propertyHelper;
-
-    private PropertyPrefix propertyPrefix;
-    private String namePrefix;
+    private int timeout;
+    private String threadNamePrefix;
     private ThreadPoolTaskExecutor executor;
 
-    public PropertyPrefix getPropertyPrefix() {
-        return propertyPrefix;
+    public ThreadExecutionManager(int timeout, String threadNamePrefix) {
+        this.timeout = timeout;
+        this.threadNamePrefix = threadNamePrefix;
     }
 
-    public String getNamePrefix() {
-        return namePrefix;
+    public int getTimeout() {
+        return timeout;
     }
 
-    public ThreadExecutionManager(PropertyPrefix propertyPrefix, String namePrefix) {
-        this.propertyPrefix = propertyPrefix;
-        this.namePrefix = namePrefix;
+    public String getThreadNamePrefix() {
+        return threadNamePrefix;
     }
 
-    @PostConstruct
-    private void init() {
-        Assert.notNull(this.propertyPrefix, "'propertyPrefix' cannot be null to configure the executor manager");
+    /**
+     * to initialize executor
+     * @param corePoolSize executor's core pool size
+     */
+    private void init(int corePoolSize) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        String prefix = this.propertyPrefix.get();
-        int corePoolSize = this.propertyHelper.getInt(prefix + ".thread.max.active.count",
-                DEFAULT_MAX_ACTIVE_THREAD_COUNT);
-        executor.setCorePoolSize(corePoolSize);
-        if(StringUtils.hasText(this.namePrefix)) {
-            executor.setThreadNamePrefix(this.namePrefix);
+        if(StringUtils.hasText(this.threadNamePrefix)) {
+            executor.setThreadNamePrefix(this.threadNamePrefix);
         }
-        int timeout = this.propertyHelper.getInt(prefix + ".tasks.timeout", Integer.MAX_VALUE);
-        executor.setAwaitTerminationSeconds(timeout);
-        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setCorePoolSize(corePoolSize);
+        if(this.timeout > 0) {
+            executor.setAwaitTerminationSeconds(timeout);
+            executor.setWaitForTasksToCompleteOnShutdown(true);
+        }
         executor.afterPropertiesSet();
 
         this.executor = executor;
@@ -58,21 +50,24 @@ public class ThreadExecutionManager {
     /**
      * to submit(start) runnables to the thread pool executor
      * @param runnables runnable list wanted to be started
-     * @param shutdown executer will be shutdown if it is true
      */
-    public void submitRunnables(List<? extends Runnable> runnables, boolean shutdown) {
+    public void submitRunnables(List<? extends Runnable> runnables) {
         Assert.notEmpty(runnables, "'runnables' cannot be null or empty");
-
+        this.init(runnables.size());
         for (Runnable runnable : runnables) {
             this.executor.submit(runnable);
         }
 
-        if(shutdown)
-            this.shutdown();
+        this.shutdown();
     }
 
+    /**
+     * to shutdown the executor
+     */
     public void shutdown() {
-        this.executor.shutdown();
-        this.executor = null;
+        if(this.executor != null) {
+            this.executor.shutdown();
+            this.executor = null;
+        }
     }
 }

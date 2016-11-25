@@ -117,7 +117,6 @@ public class PropertyHelper {
      * @param <T> any child class of Number
      * @return a T type which is the parsed number from the given value
      */
-    // TODO TEST For all Number subclasses
     private <T extends Number> T parseNumber(String value, Class targetClass, T defaultValue) {
         try {
             return (T) NumberUtils.parseNumber(value, targetClass);

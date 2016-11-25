@@ -3,9 +3,6 @@ package com.kahramani.crawler.snmp.config;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import org.snmp4j.PDU;
 import org.snmp4j.mp.SnmpConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.util.Assert;
 
 /**
@@ -20,9 +17,6 @@ public class SnmpConfiguration {
     public static final int DEFAULT_SNMP_PDU = PDU.GETBULK;
     public static final int DEFAULT_SNMP_VERSION = SnmpConstants.version2c;
 
-    @Autowired
-    private PropertyHelper propertyHelper;
-
     private String community;
     private int maxSizeRequestPDU;
     private int maxRepetitions;
@@ -31,18 +25,18 @@ public class SnmpConfiguration {
     private int protocolDataUnit;
     private int snmpVersion;
 
-    protected SnmpConfiguration(PropertyPrefix propertyPrefix) {
+    protected SnmpConfiguration(PropertyHelper propertyHelper, PropertyPrefix propertyPrefix) {
         Assert.notNull(propertyPrefix, "'propertyPrefix' cannot be null to configure");
 
         String prefix = propertyPrefix.get();
-        this.community = this.propertyHelper.getString(prefix + ".community");
-        this.maxSizeRequestPDU = this.propertyHelper.getInt(prefix + ".max.size.request.pdu",
+        this.community = propertyHelper.getString(prefix + ".community");
+        this.maxSizeRequestPDU = propertyHelper.getInt(prefix + ".max.size.request.pdu",
                 this.DEFAULT_MAX_SIZE_REQUEST_PDU);
-        this.maxRepetitions = this.propertyHelper.getInt(prefix + ".max.repetitions",
+        this.maxRepetitions = propertyHelper.getInt(prefix + ".max.repetitions",
                 this.DEFAULT_MAX_REPETITIONS);
-        this.retry = this.propertyHelper.getInt(prefix + ".retry",
+        this.retry = propertyHelper.getInt(prefix + ".retry",
                 this.DEFAULT_SNMP_RETRY);
-        this.timeout = this.propertyHelper.getLong(prefix + ".timeOut",
+        this.timeout = propertyHelper.getLong(prefix + ".timeOut",
                 this.DEFAULT_SNMP_TIMEOUT);
         this.protocolDataUnit = this.DEFAULT_SNMP_PDU;
         this.snmpVersion = this.DEFAULT_SNMP_VERSION;
