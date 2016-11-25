@@ -60,7 +60,7 @@ public class OltSnmpTaskRunnable implements SnmpTaskRunnable{
 
         Assert.notEmpty(splitList, "'splitList' could not be created");
 
-        OltSnmpCrawler crawler = new OltSnmpCrawler();
+        OltSnmpCrawler crawler = new OltSnmpCrawler(this.propertyHelper);
         for(List<?> partition : splitList) {
             List<OltOntData> ontDataList = crawler.crawlAllOver(partition);
 

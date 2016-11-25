@@ -1,5 +1,6 @@
 package com.kahramani.crawler.snmp.action;
 
+import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.config.SnmpConfiguration;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.utils.SnmpUtils;
@@ -18,6 +19,7 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 import org.snmp4j.util.DefaultPDUFactory;
 import org.snmp4j.util.TreeEvent;
 import org.snmp4j.util.TreeUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -38,8 +40,8 @@ class SnmpDriver extends SnmpConfiguration {
     private Snmp snmp;
     private TransportMapping transportMapping;
 
-    protected SnmpDriver(PropertyPrefix propertyPrefix) {
-        super(propertyPrefix);
+    protected SnmpDriver(PropertyHelper propertyHelper, PropertyPrefix propertyPrefix) {
+        super(propertyHelper, propertyPrefix);
     }
 
     /**
@@ -79,6 +81,11 @@ class SnmpDriver extends SnmpConfiguration {
      * @return a String which is the device response to snmpGet command
      */
     protected String get(String ipAddress, int snmpPort, String communityIndex, String oidStr) {
+        Assert.hasText(ipAddress, "'ipAddress' cannot be null or empty");
+        Assert.hasText(oidStr, "'oidStr' cannot be null or empty");
+        if(snmpPort == 0)
+            snmpPort = SnmpUtils.DEFAULT_SNMP_PORT;
+
         this.setProtocolDataUnit(PDU.GET);
 
         String response = getResponseEventVariable(ipAddress, snmpPort, communityIndex, oidStr);
@@ -102,6 +109,11 @@ class SnmpDriver extends SnmpConfiguration {
                                                    String communityIndex,
                                                    String rootOid,
                                                    int maxRepetitions) {
+        Assert.hasText(ipAddress, "'ipAddress' cannot be null or empty");
+        Assert.hasText(rootOid, "'rootOid' cannot be null or empty");
+        if(snmpPort == 0)
+            snmpPort = SnmpUtils.DEFAULT_SNMP_PORT;
+
         this.setProtocolDataUnit(PDU.GETBULK);
         List<VariableBinding> variableBindingList =
                 getTreeEventVariables(ipAddress, snmpPort, communityIndex, rootOid, maxRepetitions);
@@ -191,7 +203,7 @@ class SnmpDriver extends SnmpConfiguration {
      * @param maxRepetitions number of the variable binding per event
      * @return an ArrayList of VariableBinding which retrieved by snmpgetBulk
      */
-    public List<VariableBinding> getTreeEventVariables(String ipAddress,
+    private List<VariableBinding> getTreeEventVariables(String ipAddress,
                                                             int snmpPort,
                                                             String communityIndex,
                                                             String rootOid,

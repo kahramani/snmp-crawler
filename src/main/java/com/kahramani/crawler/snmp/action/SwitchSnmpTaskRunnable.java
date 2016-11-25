@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class SwitchSnmpTaskRunnable implements SnmpTaskRunnable {
 
         Assert.notEmpty(splitList, "'splitList' could not be created");
 
-        SwitchSnmpCrawler crawler = new SwitchSnmpCrawler();
+        SwitchSnmpCrawler crawler = new SwitchSnmpCrawler(this.propertyHelper);
         for(List<?> partition : splitList) {
             List<SwitchPortData> portDataList = crawler.crawlAllOver(partition);
 
