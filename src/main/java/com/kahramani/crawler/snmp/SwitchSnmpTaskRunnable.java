@@ -1,4 +1,4 @@
-package com.kahramani.crawler.snmp.action;
+package com.kahramani.crawler.snmp;
 
 import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,12 +44,11 @@ public class SwitchSnmpTaskRunnable implements SnmpTaskRunnable {
     public void run() {
         Assert.notEmpty(this.switchList, "'switchList' cannot be null or empty");
 
-        String maxSwitchCountToInsertKey = PropertyPrefix.SW_SOURCE_DB_PREFIX + ".max.insert.count.to.db";
+        String maxSwitchCountToInsertKey = PropertyPrefix.SW_PREFIX + ".max.insert.count.to.db";
         int maxSwitchCountToInsert = propertyHelper
                 .getInt(maxSwitchCountToInsertKey, DEFAULT_SWITCH_MAX_COUNT_TO_INSERT);
 
-        if(maxSwitchCountToInsert <= 0)
-            throw new IllegalArgumentException("'" + maxSwitchCountToInsertKey + "' cannot be 0 or lower");
+        Assert.isTrue(maxSwitchCountToInsert > 0, "'" + maxSwitchCountToInsertKey + "' cannot be 0 or lower");
 
         Chronometer cr = new Chronometer();
         cr.start();

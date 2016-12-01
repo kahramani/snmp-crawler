@@ -1,6 +1,6 @@
 package com.kahramani.crawler.snmp.service;
 
-import com.kahramani.crawler.snmp.action.SwitchSnmpTaskRunnable;
+import com.kahramani.crawler.snmp.SwitchSnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.Switch;
@@ -19,7 +19,7 @@ public class SwitchSnmpService extends SnmpServiceAbstract {
     private RepositoryService repositoryService;
 
     @Autowired
-    private SnmpTaskGenerator snmpTaskGenerator;
+    private SnmpServiceTaskGenerator taskGenerator;
 
     public SwitchSnmpService() {
         super(SwitchSnmpService.class);
@@ -32,7 +32,7 @@ public class SwitchSnmpService extends SnmpServiceAbstract {
 
         // create runnables from the list for thread execution
         List<SwitchSnmpTaskRunnable> switchSnmpTaskRunnables =
-                snmpTaskGenerator.generate(PropertyPrefix.SW_PREFIX, switchList, SwitchSnmpTaskRunnable.class);
+                taskGenerator.generate(PropertyPrefix.SW_PREFIX, switchList, SwitchSnmpTaskRunnable.class);
 
         // start executing threads
         String threadNamePrefix = "SwitchSnmpThread_";

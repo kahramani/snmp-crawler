@@ -1,4 +1,4 @@
-package com.kahramani.crawler.snmp.action;
+package com.kahramani.crawler.snmp;
 
 import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.config.SnmpConfiguration;

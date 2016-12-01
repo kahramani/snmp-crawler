@@ -1,4 +1,4 @@
-package com.kahramani.crawler.snmp.action;
+package com.kahramani.crawler.snmp;
 
 import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
@@ -44,12 +44,11 @@ public class OltSnmpTaskRunnable implements SnmpTaskRunnable{
     public void run() {
         Assert.notEmpty(this.oltList, "'oltList' cannot be null or empty");
 
-        String maxOltCountToInsertKey = PropertyPrefix.OLT_SOURCE_DB_PREFIX + ".max.insert.count.to.db";
+        String maxOltCountToInsertKey = PropertyPrefix.OLT_PREFIX + ".max.insert.count.to.db";
         int maxOltCountToInsert = propertyHelper
                 .getInt(maxOltCountToInsertKey, DEFAULT_OLT_MAX_COUNT_TO_INSERT);
 
-        if(maxOltCountToInsert <= 0)
-            throw new IllegalArgumentException("'" + maxOltCountToInsertKey + "' cannot be 0 or lower");
+        Assert.isTrue(maxOltCountToInsert > 0, "'" + maxOltCountToInsertKey + "' cannot be 0 or lower");
 
         Chronometer cr = new Chronometer();
         cr.start();

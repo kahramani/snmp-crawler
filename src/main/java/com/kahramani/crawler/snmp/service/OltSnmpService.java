@@ -1,6 +1,6 @@
 package com.kahramani.crawler.snmp.service;
 
-import com.kahramani.crawler.snmp.action.OltSnmpTaskRunnable;
+import com.kahramani.crawler.snmp.OltSnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.ThreadExecutionManager;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.Olt;
@@ -19,7 +19,7 @@ public class OltSnmpService extends SnmpServiceAbstract {
     private RepositoryService repositoryService;
 
     @Autowired
-    private SnmpTaskGenerator snmpTaskGenerator;
+    private SnmpServiceTaskGenerator taskGenerator;
 
     public OltSnmpService() {
         super(OltSnmpService.class);
@@ -32,7 +32,7 @@ public class OltSnmpService extends SnmpServiceAbstract {
 
         // create runnables from the list for thread execution
         List<OltSnmpTaskRunnable> oltSnmpTaskRunnables =
-                snmpTaskGenerator.generate(PropertyPrefix.OLT_PREFIX, oltList, OltSnmpTaskRunnable.class);
+                taskGenerator.generate(PropertyPrefix.OLT_PREFIX, oltList, OltSnmpTaskRunnable.class);
 
         // start executing threads
         String threadNamePrefix = "OltSnmpThread_";

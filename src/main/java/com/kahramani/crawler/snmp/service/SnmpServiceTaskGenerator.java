@@ -1,6 +1,6 @@
 package com.kahramani.crawler.snmp.service;
 
-import com.kahramani.crawler.snmp.action.SnmpTaskRunnable;
+import com.kahramani.crawler.snmp.SnmpTaskRunnable;
 import com.kahramani.crawler.snmp.config.PropertyHelper;
 import com.kahramani.crawler.snmp.enums.PropertyPrefix;
 import com.kahramani.crawler.snmp.models.NetworkElement;
@@ -19,9 +19,9 @@ import java.util.List;
  * Created by kahramani on 11/22/2016.
  */
 @Component
-class SnmpTaskGenerator {
+class SnmpServiceTaskGenerator {
 
-    private static final Logger logger = LoggerFactory.getLogger(SnmpTaskGenerator.class);
+    private static final Logger logger = LoggerFactory.getLogger(SnmpServiceTaskGenerator.class);
     private static final int DEFAULT_MAX_ACTIVE_THREAD_COUNT = 3;
 
     @Autowired
